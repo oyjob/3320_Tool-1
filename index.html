@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./style/style.css">
+    <title>17W16J15C16C16V 出荷検査V2 rev1.00</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>17W/16J/15C/16C/16V 出荷検査ソフトⅡ V1.00</h2>
+      <div class="control-panel">
+        <div>
+        <label>１．製品名　</label>
+        <label class="radioItem">
+          <input type="radio" name="selectRadio" value="17W" class="radioButton" checked />
+          17W 
+        </label>
+        <label class="radioItem">
+          <input type="radio" name="selectRadio" value="16J" class="radioButton" />
+          16J
+        </label>
+        <label class="radioItem">
+          <input type="radio" name="selectRadio" value="15C" class="radioButton" />
+          15C
+        </label>
+        <label class="radioItem">
+          <input type="radio" name="selectRadio" value="16C" class="radioButton" />
+          16C ( 16K, 19F)
+        </label>
+        <label class="radioItem">
+          <input type="radio" name="selectRadio" value="16V" class="radioButton" />
+          16V
+        </label>
+        </div>
+        <br>
+        <div>
+          <label>２．シリアルポート　</label>
+          <button id="connectButton">接続</button>
+          <button id="disconnectButton" disabled>切断</button>
+          <button id="revinfoButton" style="display:none;" onclick="revinfoClick()">リビジョンインフォ</button>
+          <button id="extractAndDisplayButton" style="display:none;" onclick="extractAndDisplay()">FW / SN 抽出</button>
+        <br>
+          <label>３．</label>
+          <button id="autoButton" >FW・SN・設定書込・設定内容一致</button>
+        </div>
+
+        <div class="task-buttons">
+          <button id="task17WButton" style="display:none;">17W-set</button>
+          <button id="task16JButton" style="display:none;">16J-set</button>
+          <button id="task15CButton" style="display:none;">15C-set</button>
+          <button id="task16CButton" style="display:none;">16C-set</button>
+          <button id="task16VButton" style="display:none;">16V-set</button>
+        </div>
+
+        <div>
+          <div>
+            <button id="Write17W_Button" style="display:none;">17W 書込</button>
+            <button id="Write16J_Button" style="display:none;">16J 書込</button>
+            <button id="Write15C_Button" style="display:none;">15C 書込</button>
+            <button id="Write16C_Button" style="display:none;">16C 書込</button>
+            <button id="Write16V_Button" style="display:none;">16V 書込</button>
+          </div>
+
+          <div>
+            <button id="checked17W_Button" style="display:none;">17W 確認</button>
+            <button id="checked16J_Button" style="display:none;">16J 確認</button>
+            <button id="checked15C_Button" style="display:none;">15C 確認</button>
+            <button id="checked16C_Button" style="display:none;">16C 確認</button>
+            <button id="checked16V_Button" style="display:none;">16V 確認</button>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <label>４．</label>
+            <button id="button1Open">箱SN照合</button>
+            <label>　５．</label>
+            <button id="button2Open">読取OKバーコード</button>
+            <label>　６．</label>
+            <button id="button3Open">最終確認・保存</button>
+            <label>　７．</label>
+            <button id="button4Open" onclick="clearLogs()">LOGクリア</button>
+          </div>
+
+          <dialog class="container1-modal" id="modal1Dialog">
+            <div class="wrapper1-modal">
+              <h3>箱ラベルのシリアルバーコードを読んでください。</h3>
+              <p>REVINFのシリアル番号： <span id="revinfoSerial">未入力</span></p>
+              <p>箱ラベルのシリアル番号：<span id="boxSerial">-----</span></p>
+              <p>シリアル番号の一致判定：<span id="serialMatchResult">-----</span></p>
+              <button id="button1Close" type="reset">LOGデータに記録して閉じる</button>
+            </div>
+          </dialog>
+          <dialog class="container2-modal" id="modal2Dialog">
+            <div class="wrapper2-modal">
+              <h3>読み取りOK確認用のバーコードを全てスキャンします。</h3>
+              <div id="barcodeStatusInDialog">
+                <!-- バーコードの読み取り状態がここに表示されます -->
+              </div>
+              <button id="button2Close" type="reset">LOGデータに記録して閉じる</button>
+            </div>
+          </dialog>
+          <dialog class="container3-modal" id="modal3Dialog">
+            <div class="wrapper3-modal">
+              <h3>最終確認</h3>
+              <p>外観および全ての検査に問題がなければ</p>
+              <p>「ダウンロードホルダに保存」をクリックしてLOGを保存します。</p>
+              <p>再確認や再検査の場合は、戻るボタンをクリックしてください。</p>
+              <p>再検査した項目は追加記録されます。</p>
+              <button id="button3Back" type="button">戻る</button>
+              <button id="button3Close" type="reset">ダウンロードホルダに保存</button>
+            </div>
+          </dialog>
+        </div>
+
+        <div>
+          <button id="hiddenButton1" style="display: none;" onclick="boxSNverification()">箱シリアル照合</button>
+          <button id="hiddenButton2" style="display: none;" onclick="readableBarcode()">読取OKコード確認</button>
+          <button id="hiddenButton3" style="display: none;" onclick="saveLogs()">Log保存</button>
+          <!--button id="hiddenButton4" style="display: none;" onclick="clearLogs()">Logクリア</button-->
+        </div>
+
+        <div style="margin-top: 10px;">
+          <label for="receivedData">LOGデータ:</label>
+          <textarea
+            id="receivedData"
+            rows="15"
+            style="width: 100%; margin-top: 5px;"
+            readonly>
+          </textarea>
+        </div>
+      </div>
+
+      <!--LOGを表示する場合はCSSで有効にする -->
+      <div class="log-panel" id="logPanel">
+        <!-- ログがここに表示されます -->
+      </div>
+    </div>
+
+        <script src="./js/script.js" defer></script>
+  </body>
+</html>

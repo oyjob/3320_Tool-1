@@ -1,0 +1,241 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f0f0f0;
+  }
+
+#barcodeStatusInDialog {
+    max-height: 160px;  /* ダイアログの高さに合わせて適切な値を設定 */
+    overflow-y: auto;   /* 縦方向のスクロールを有効化 */
+    margin: 10px 0;     /* 上下の余白 */
+    border: 1px solid #e0e0e0;  /* 境界線を追加 */
+    border-radius: 4px;  /* 角を丸く */
+    padding: 5px;       /* 内側の余白 */
+}
+
+/* 小さめのフォントとカスタム色でバーコード読み取り表示を見やすくする */
+#barcodeStatusInDialog {
+  max-height: 160px;  /* ダイアログの高さに合わせて適切な値を設定 */
+  overflow-y: auto;   /* 縦方向のスクロールを有効化 */
+  margin: 10px 0;     /* 上下の余白 */
+  border: 1px solid #e0e0e0;  /* 境界線を追加 */
+  border-radius: 4px;  /* 角を丸く */
+  padding: 5px;       /* 内側の余白 */
+  font-size: 12px;    /* 小さいフォントサイズに調整（必要なら10px〜14pxで調整可） */
+  color: #333333;     /* デフォルトテキスト色（暗めのグレー） */
+}
+
+#barcodeStatusInDialog p {
+  margin: 4px 0;
+  padding: 4px 6px;
+  color: #1a73e8;     /* 青系の読み取りステータス色（変更可） */
+  background-color: #f5f9ff; /* 軽い背景で見やすくする */
+  border-bottom: 1px solid #eef4ff;  /* 各項目の区切り線 */
+  border-radius: 3px;
+  font-size: 12px;    /* 子要素にもフォントサイズを適用 */
+}
+
+#barcodeStatusInDialog p.success {
+  color: #1a73e8; /* 成功：デフォルトと同じ青に変更（必要なら別色に調整可） */
+}
+
+#barcodeStatusInDialog p.error {
+  color: #d93025; /* エラー：赤 */
+}
+
+#barcodeStatusInDialog p:last-child {
+  border-bottom: none;  /* 最後の項目の下線を削除 */
+}
+
+/* モーダル内で success/error クラスが付与された要素に確実に適用する（要素種別に依らない） */
+#barcodeStatusInDialog .success {
+  color: #1a73e8 !important; /* モーダル内の success を青に変更して緑で上書きされないようにする */
+  background-color: #f5f9ff !important;
+}
+
+#barcodeStatusInDialog .error {
+  color: #d93025 !important; /* エラー：赤（必要なら変更可） */
+  background-color: #fff5f5 !important;
+}
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  .control-panel {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .log-panel {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 300px;
+    overflow-y: auto;
+    font-family: monospace;
+  }
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+  }
+  button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  select {
+    padding: 8px;
+    margin: 5px;
+  }
+  .log-entry {
+    margin: 5px 0;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+  }
+  .error {
+    color: red;
+  }
+  .success {
+    color: green;
+  }
+  #logPanel {
+    display: none;
+  }
+  
+  .container1-modal {
+  background-color: initial;
+  border: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.container1-modal::backdrop {
+  background-color: rgba(0, 0, 0, .5);
+}
+.wrapper1-modal {
+  background: rgba(255, 255, 255, 1);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+  height: 320px;
+  left: 50%;
+  opacity: 1;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity .3s;
+  width: 480px;
+  z-index: 20;
+}
+.container2-modal {
+  background-color: initial;
+  border: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.container2-modal::backdrop {
+  background-color: rgba(0, 0, 0, .5);
+}
+.wrapper2-modal {
+  background: rgba(255, 255, 255, 1);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+  height: 320px;
+  left: 50%;
+  opacity: 1;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity .3s;
+  width: 480px;
+  z-index: 20;
+}
+
+.container3-modal {
+  background-color: initial;
+  border: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.container3-modal::backdrop {
+  background-color: rgba(0, 0, 0, .5);
+}
+.wrapper3-modal {
+  background: rgba(255, 255, 255, 1);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+  height: 320px;
+  left: 50%;
+  opacity: 1;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity .3s;
+  width: 480px;
+  z-index: 20;
+}
+.container4-modal {
+  background-color: initial;
+  border: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.container4-modal::backdrop {
+  background-color: rgba(0, 0, 0, .5);
+}
+.wrapper4-modal {
+  background: rgba(255, 255, 255, 1);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+  height: 320px;
+  left: 50%;
+  opacity: 1;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity .3s;
+  width: 480px;
+  z-index: 20;
+}
+
+/* 最後に追加：モーダル内のバーコード表示に関して、他のルールより強制的に色を適用する */
+.container2-modal #barcodeStatusInDialog,
+.container2-modal #barcodeStatusInDialog * {
+  color: #1a73e8 !important; /* 全て青に統一（必要なら別色に変更可） */
+  background-color: transparent !important; /* 背景は個別で制御したい場合は上書きされないようにする */
+}
+
+.container2-modal #barcodeStatusInDialog .error,
+.container2-modal #barcodeStatusInDialog p.error {
+  color: #d93025 !important; /* エラーのみ赤にする */
+  background-color: #fff5f5 !important;
+}
