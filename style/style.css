@@ -21,7 +21,7 @@ body {
   border: 1px solid #e0e0e0;  /* 境界線を追加 */
   border-radius: 4px;  /* 角を丸く */
   padding: 5px;       /* 内側の余白 */
-  font-size: 12px;    /* 小さいフォントサイズに調整（必要なら10px〜14pxで調整可） */
+  font-size: 11px;    /* 小さいフォントサイズに調整（必要なら10px〜14pxで調整可） */
   color: #333333;     /* デフォルトテキスト色（暗めのグレー） */
 }
 
