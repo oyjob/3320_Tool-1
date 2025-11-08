@@ -303,6 +303,9 @@ const PRODUCT_CONDITIONS = {
             });
 
             addLog("接続成功", "success");
+            const receivedData = document.getElementById('receivedData');
+            receivedData.value += "●ポートオープン\n";
+            receivedData.scrollTop = receivedData.scrollHeight;
           } catch (error) {
             addLog(`接続エラー: ${error.message}`, "error");
           }
@@ -359,10 +362,16 @@ const PRODUCT_CONDITIONS = {
               }
 
               document.getElementById("connectButton").disabled = false;
-              //document.getElementById('sendButton').disabled = true;
-              document.getElementById("productCondition").disabled = false;
-
+              //document.getElementById("productCondition").disabled = false;
+              const productConditionElem = document.getElementById("productCondition");
+              if (productConditionElem) {
+              productConditionElem.disabled = false;
+              }
+              
               addLog("切断完了", "success");
+              const receivedData = document.getElementById('receivedData');
+              receivedData.value += "●ポートクローズ\n";
+              receivedData.scrollTop = receivedData.scrollHeight;
             } catch (error) {
               console.error("切断処理中のエラー:", error);
               document.getElementById("disconnectButton").disabled = false;
@@ -1213,8 +1222,13 @@ myButton1Open.addEventListener('click', () => {
 myButton1Close.addEventListener('click', () => {
   //myDialog.removeAttribute('open');
   myDialog1.close();
-  receivedData.value += "\n●箱シリアル一致\n" ;
-  receivedData.scrollTop = receivedData.scrollHeight; // スクロールを最下部に移動
+  const matchResultSpan = document.getElementById('serialMatchResult');
+  if (matchResultSpan.textContent === '一致') {
+    receivedData.value += "\n●箱シリアル一致（OK）\n" ;
+  } else {
+    receivedData.value += "\n●箱シリアル不一致（NG）\n" ;
+  }
+    receivedData.scrollTop = receivedData.scrollHeight; // スクロールを最下部に移動
 });
 
 const myDialog2 = document.getElementById('modal2Dialog');
@@ -1750,8 +1764,30 @@ function downloadFallback(output, filename) {
         const textarea = document.getElementById('receivedData');
         if (textarea) {
           textarea.value = '';
-          // バーコードスキャン状態もリセット
-          //resetScannedBarcodeTypes();
+          // バーコードスキャン状態もリセット（必要なら有効化）
+          // resetScannedBarcodeTypes();
+          // モーダル1の表示もクリア（箱ラベルのシリアル番号と一致判定を既定値に戻す）
+          const boxSerialSpan = document.getElementById('boxSerial');
+          if (boxSerialSpan) boxSerialSpan.textContent = '*****';
+          const matchResultSpan = document.getElementById('serialMatchResult');
+          if (matchResultSpan) {
+            matchResultSpan.textContent = '-----';
+            matchResultSpan.style.color = ''; // スタイルリセット
+          }
+          // リビジョン情報ダイアログのシリアル表示を既定値に戻す
+          const revinfoSpan = document.getElementById('revinfoSerial');
+          if (revinfoSpan) revinfoSpan.textContent = '未入力';
+          // グローバルに保持しているシリアル番号もクリア
+          if (typeof currentSerialNumber !== 'undefined') currentSerialNumber = '';
+          // モーダル3の読み取りエリアをクリア
+          const statusDiv = document.getElementById('barcodeStatusInDialog');
+          if (statusDiv) {
+          statusDiv.innerHTML = '';
+            // 読み取り済みセットもクリアして、再表示時に再生成されないようにする
+            if (typeof scannedBarcodeTypes !== 'undefined' && scannedBarcodeTypes.clear) {
+              scannedBarcodeTypes.clear();
+            }
+          }
         }
       }
 
