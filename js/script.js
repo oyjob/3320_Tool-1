@@ -291,7 +291,6 @@ const PRODUCT_CONDITIONS = {
 
             document.getElementById("connectButton").disabled = true;
             document.getElementById("disconnectButton").disabled = false;
-            //document.getElementById('sendButton').disabled = false;
             //document.getElementById("productCondition").disabled = true;
 
             // 受信データ表示エリアをクリア
@@ -1366,7 +1365,7 @@ function validateBarcodeData() {
     const textarea = document.getElementById('receivedData');
     const textContent = textarea.value;
 
-    console.log("テキストエリアの内容:", textContent);
+    //console.log("テキストエリアの内容:", textContent);
 
     // バーコードパターンを検索
     // 最後に出現したバーコードパターンを検索
@@ -1376,30 +1375,30 @@ function validateBarcodeData() {
     let lastBarcodeMatch = null;
     let match;
 
-    console.log("正規表現パターン:", {
-        ETX: barcodeRegexETX.toString(),
-        CRHT: barcodeRegexCRHT.toString(),
-        CR: barcodeRegexCR.toString()
-    });
+    //console.log("正規表現パターン:", {
+    //    ETX: barcodeRegexETX.toString(),
+    //    CRHT: barcodeRegexCRHT.toString(),
+    //    CR: barcodeRegexCR.toString()
+    //});
 
     // [STX]...[ETX]パターンを検索し、最後のものを保持
     console.log("ETXパターンの検索開始");
     while ((match = barcodeRegexETX.exec(textContent)) !== null) {
-        console.log("ETXパターンマッチ:", match);
+        //console.log("ETXパターンマッチ:", match);
         lastBarcodeMatch = match;
     }
 
     // [CR][HT]パターンを検索し、最後のものを保持
     console.log("CRHTパターンの検索開始");
     while ((match = barcodeRegexCRHT.exec(textContent)) !== null) {
-        console.log("CRHTパターンマッチ:", match);
+        //console.log("CRHTパターンマッチ:", match);
         lastBarcodeMatch = match;
     }
 
     // [STX]...[CR]パターンも検索し、最後のものを保持（より新しい場合）
     console.log("CRパターンの検索開始");
     while ((match = barcodeRegexCR.exec(textContent)) !== null) {
-        console.log("CRパターンマッチ:", match);
+        //console.log("CRパターンマッチ:", match);
         lastBarcodeMatch = match;
     }
 
@@ -1416,11 +1415,11 @@ function validateBarcodeData() {
     const barcodeDataOnly = lastBarcodeMatch[1];
 
     // デバッグ用：検出されたバーコードデータをログに出力
-    console.log("検出されたバーコードデータ:", {
-        full: fullBarcodeData,
-        dataOnly: barcodeDataOnly,
-        match: lastBarcodeMatch
-    });
+    //console.log("検出されたバーコードデータ:", {
+    //    full: fullBarcodeData,
+    //    dataOnly: barcodeDataOnly,
+    //    match: lastBarcodeMatch
+    //});
 
     // バーコードタイプの検証
     let matchFound = false;
@@ -1445,7 +1444,7 @@ function validateBarcodeData() {
         // 完全一致を確認（制御コードを含む）
         const fullPattern = definition.prefix + definition.data + definition.suffix;
         // デバッグ用：比較結果をログに出力
-        console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
+        //console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
 
         if (fullBarcodeData === fullPattern) {
             matchFound = true;
@@ -1467,7 +1466,7 @@ function validateBarcodeData() {
         // 完全一致を確認（制御コードを含む）
         const fullPattern = definition.prefix + definition.data + definition.suffix;
         // デバッグ用：比較結果をログに出力
-        console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
+        //console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
 
         if (fullBarcodeData === fullPattern) {
             matchFound = true;
@@ -1489,7 +1488,7 @@ function validateBarcodeData() {
         // 完全一致を確認（制御コードを含む）
         const fullPattern = definition.prefix + definition.data + definition.suffix;
         // デバッグ用：比較結果をログに出力
-        console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
+        //console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
 
         if (fullBarcodeData === fullPattern) {
             matchFound = true;
@@ -1518,7 +1517,7 @@ function validateBarcodeData() {
         // 完全一致を確認（制御コードを含む）
         const fullPattern = definition.prefix + definition.data + definition.suffix;
         // デバッグ用：比較結果をログに出力
-        console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
+        //console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
 
         if (fullBarcodeData === fullPattern) {
             matchFound = true;
@@ -1541,7 +1540,7 @@ function validateBarcodeData() {
         const fullPattern = definition.prefix + definition.data + definition.suffix;
 
         // デバッグ用：比較結果をログに出力
-        console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
+        //console.log(`比較: "${fullBarcodeData}" vs "${fullPattern}" (${type})`);
 
         if (fullBarcodeData === fullPattern) {
             matchFound = true;
